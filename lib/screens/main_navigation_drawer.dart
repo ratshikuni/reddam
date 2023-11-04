@@ -1,4 +1,7 @@
+import 'package:app/screens/Account.dart';
+import 'package:app/screens/Home.dart';
 import 'package:app/screens/Login.dart';
+import 'package:app/screens/Notice.dart';
 import 'package:flutter/material.dart';
 
 class MainNavigationDrawer extends StatefulWidget {
@@ -20,7 +23,10 @@ class _MainNavigationDrawerState extends State<MainNavigationDrawer> {
           height: 80,
         ),
         ListTile(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          },
           leading: const Icon(
             Icons.home,
             color: Colors.white,
@@ -33,7 +39,10 @@ class _MainNavigationDrawerState extends State<MainNavigationDrawer> {
           height: 20,
         ),
         ListTile(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NoticeScreen()));
+          },
           leading: const Icon(
             Icons.mail,
             color: Colors.white,
@@ -46,7 +55,10 @@ class _MainNavigationDrawerState extends State<MainNavigationDrawer> {
           height: 20,
         ),
         ListTile(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AccountScreen()));
+          },
           leading: const Icon(
             Icons.person,
             color: Colors.white,
