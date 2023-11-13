@@ -102,23 +102,53 @@ class _LoginScreenState extends State<LoginScreen> {
     //login Buttong
     //On Pressed : sends email and password
     //to Sign In method
-    final loginButton = Material(
-      elevation: 5,
-      borderRadius: BorderRadius.circular(30),
-      color: Color(0xFFA78E3C),
-      child: MaterialButton(
-        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        minWidth: MediaQuery.of(context).size.width,
+    // final loginButton = Material(
+    //   elevation: 5,
+    //   borderRadius: BorderRadius.circular(30),
+    //   color: Color(0xFFA78E3C),
+    //   child: MaterialButton(
+    //     padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+    //     minWidth: MediaQuery.of(context).size.width,
+    //     onPressed: () {
+    //       showSnackBar("we have signed in", Duration(seconds: 3));
+    //       Navigator.of(context).pushReplacement(
+    //           MaterialPageRoute(builder: (context) => HomeScreen()));
+    //     },
+    //     child: const Text(
+    //       "Login",
+    //       textAlign: TextAlign.center,
+    //       style: TextStyle(
+    //           fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+    //     ),
+    //   ),
+    // );
+    // Replace your existing loginButton code with this
+    // Replace your existing loginButton code with this
+    final loginButton = Align(
+      alignment: Alignment.centerRight,
+      child: ElevatedButton(
         onPressed: () {
           showSnackBar("we have signed in", Duration(seconds: 3));
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomeScreen()));
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
         },
+        style: ElevatedButton.styleFrom(
+          primary: Color(0xFFA78E3C), // Background color
+          onPrimary: Colors.white, // Text color
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
         child: const Text(
           "Login",
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF1D2A3B),
+          ),
         ),
       ),
     );
@@ -127,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
     //consists of two text fields
     //login button and forgot password button
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 7, 41, 69),
+        backgroundColor: Color(0xFF1D2A3B),
         body: Center(
             child: SingleChildScrollView(
                 child: Container(
@@ -140,11 +170,34 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
-                      height: 400,
+                    SizedBox(height: 30),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
                       child: Image.asset(
                         'assets/logo.jpeg',
+                        // width: 250,
+                        // height: 250,
                         fit: BoxFit.contain,
+                      ),
+                    ),
+
+                    SizedBox(height: 50),
+                    Text(
+                      'C C E',
+                      style: const TextStyle(
+                        color: Color(0xFFA78E3C),
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    SizedBox(height: 10),
+                    Text(
+                      'Co-ordinate Community Engagement',
+                      style: const TextStyle(
+                        color: Color(0xFFA78E3C),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(
