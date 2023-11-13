@@ -224,34 +224,63 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     //Sign Up Button
     //Calls SignUp Method with email and password
-    final signUpButton = Material(
-      elevation: 5,
-      borderRadius: BorderRadius.circular(30),
-      color: Color(0xFFA78E3C),
-      child: MaterialButton(
-        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        minWidth: MediaQuery.of(context).size.width,
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => DetailScreen())); //
-          showSnackBar("we have signed in", Duration(seconds: 3));
+    // final signUpButton = Material(
+    //   elevation: 5,
+    //   borderRadius: BorderRadius.circular(30),
+    //   color: Color(0xFFA78E3C),
+    //   child: MaterialButton(
+    //     padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+    //     minWidth: MediaQuery.of(context).size.width,
+    //     onPressed: () {
+    //       Navigator.push(context,
+    //           MaterialPageRoute(builder: (context) => DetailScreen())); //
+    //       showSnackBar("we have signed in", Duration(seconds: 3));
+    //
+    //       //signup
+    //     },
+    //     child: Text(
+    //       "Sign Up",
+    //       textAlign: TextAlign.center,
+    //       style: TextStyle(
+    //           fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+    //     ),
+    //   ),
+    // );
 
-          //signup
-        },
-        child: Text(
-          "Sign Up",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+    final signUpButton = Align(
+      alignment: Alignment.centerRight,
+      child: ElevatedButton(
+      onPressed: () {
+        showSnackBar("we have signed in", Duration(seconds: 3));
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => DetailScreen()),
+        );
+      },
+      style: ElevatedButton.styleFrom(
+        primary: Color(0xFFA78E3C), // Background color
+        onPrimary: Colors.white, // Text color
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
         ),
       ),
+      child: const Text(
+        "Sign Up",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Color(0xFF1D2A3B),
+        ),
+      ),
+    ),
     );
 
     //designing the screen
     //consists of text fields for user input
     //and a sign up button
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 7, 41, 69),
+      backgroundColor: Color(0xFF1D2A3B),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -268,7 +297,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       body: Center(
           child: SingleChildScrollView(
               child: Container(
-        color: Color.fromARGB(255, 7, 41, 69),
+        color: Color(0xFF1D2A3B),
         child: Padding(
           padding: const EdgeInsets.all(36.0),
           child: Form(
@@ -277,16 +306,44 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(
-                    height: 100,
+                  //Add Texts as Welcoming message
+                   SizedBox(height: 50),
+                  //   child: Image.asset(
+                  //     'assets/logo.jpeg',
+                  //     fit: BoxFit.contain,
+                  //   ),
+                  // ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
                     child: Image.asset(
                       'assets/logo.jpeg',
+                      // width: 250,
+                      // height: 250,
                       fit: BoxFit.contain,
                     ),
                   ),
                   SizedBox(
                     height: 20,
                   ),
+                  SizedBox(height: 15),
+                  Text(
+                    '  Sign Up To ',
+                    style: const TextStyle(
+                      color: Color(0xFFA78E3C),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    'C C E',
+                    style: const TextStyle(
+                      color: Color(0xFFA78E3C),
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
                   nameField,
                   SizedBox(
                     height: 10,
@@ -295,10 +352,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   SizedBox(
                     height: 10,
                   ),
-                  usernameField,
-                  SizedBox(
-                    height: 10,
-                  ),
+
                   emailField,
                   SizedBox(
                     height: 10,
@@ -315,7 +369,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ///Adding CSC Picker Widget in app
 
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   signUpButton,
                 ]),
@@ -329,10 +383,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     final snackBar = SnackBar(
       content: Text(snackText),
       duration: d,
-      backgroundColor: Colors.amber,
+      backgroundColor: Color(0xFFA78E3C),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-  //this methos is used to post the values
+  //this methods is used to post the values
   //entered\
 }

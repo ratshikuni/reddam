@@ -38,7 +38,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 100),
+                SizedBox(height: 50),
                 buildDropdown('Select Grade',
                     ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4']),
                 SizedBox(height: 20),
@@ -59,7 +59,15 @@ class _DetailScreenState extends State<DetailScreen> {
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFFA78E3C),
                   ),
-                  child: Text('Submit'),
+                  child: const Text(
+                    " Submit ",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1D2A3B),
+                    ),
+                  ),
                 ),
               ],
             ),
