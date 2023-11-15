@@ -1,3 +1,4 @@
+import 'package:app/screens/Home.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -45,8 +46,14 @@ class _LogHrsState extends State<LogHrs> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          leading: const Icon(
-            Icons.arrow_back_rounded,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_rounded,
+            ),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HomeScreen())); //
+            },
           ),
           toolbarHeight: 100,
           title: const Text("Log Hours"),

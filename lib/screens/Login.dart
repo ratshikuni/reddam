@@ -180,7 +180,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         fit: BoxFit.contain,
                       ),
                     ),
-
                     SizedBox(height: 50),
                     Text(
                       'C C E',
@@ -190,7 +189,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-
                     SizedBox(height: 10),
                     Text(
                       'Co-ordinate Community Engagement',
@@ -250,7 +248,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => RegistrationScreen()),
+                                  builder: (context) =>
+                                      const RegistrationScreen()),
                             );
                           },
                           child: const Text(
