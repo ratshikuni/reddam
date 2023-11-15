@@ -27,8 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: Icon(Icons.person),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AccountScreen())); //
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => AccountScreen())); //
               // Add your onPressed logic here
             },
           )
@@ -59,16 +59,17 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         child: MainNavigationDrawer(),
       ),
-      endDrawer: IconButton(
-        icon: Icon(Icons.person),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      AccountScreen())); // Add your settings action here
-        },
-      ),
+      // endDrawer: IconButton(
+      //   icon: Icon(Icons.person),
+      //   onPressed: () {
+      //     print("asdfasdfasdf");
+      //     // Navigator.push(
+      //     //     context,
+      //     //     MaterialPageRoute(
+      //     //         builder: (context) =>
+      //     //             Account())); // Add your settings action here
+      //   },
+      // ),
       body: Container(
         color: Color.fromARGB(218, 218, 218, 218),
         child: Center(
@@ -129,51 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
-                  child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const Text('Timetable',
-                              style: TextStyle(
-                                  fontSize: 20.0, fontWeight: FontWeight.bold)),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(
-                                    8.0), // Adjust the padding as needed
-                                child: ColorChangeWidget(),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(
-                                    8.0), // Adjust the padding as needed
-                                child: ColorChangeWidget(),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(
-                                    8.0), // Adjust the padding as needed
-                                child: ColorChangeWidget(),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(
-                                    8.0), // Adjust the padding as needed
-                                child: ColorChangeWidget(),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(
-                                    8.0), // Adjust the padding as needed
-                                child: ColorChangeWidget(),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ))),
+                  child: WeekCalendar()),
             ),
             Expanded(
               child: Card(
@@ -220,51 +177,103 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class ColorChangeWidget extends StatefulWidget {
+class WeekCalendar extends StatefulWidget {
   @override
-  _ColorChangeWidgetState createState() => _ColorChangeWidgetState();
+  _WeekCalendarState createState() => _WeekCalendarState();
 }
 
-class _ColorChangeWidgetState extends State<ColorChangeWidget> {
-  bool isSelected = false;
-  final Color defaultColor = Colors.white;
-  final Color selectedColor = const Color.fromARGB(255, 7, 41, 69);
+class _WeekCalendarState extends State<WeekCalendar> {
+  int selectedDayIndex = -1;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          isSelected = !isSelected;
-        });
-      },
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12.0),
-        child: Container(
-          color: isSelected ? selectedColor : defaultColor,
-          height: 50,
-          width: 50,
-          child: Center(
-              child: Column(children: [
-            Text(
-              'M',
-              style: TextStyle(
-                color: isSelected
-                    ? Colors.white
-                    : const Color.fromARGB(255, 7, 41, 69),
-              ),
-            ),
-            Text(
-              '28',
-              style: TextStyle(
-                color: isSelected
-                    ? Colors.white
-                    : const Color.fromARGB(255, 7, 41, 69),
-              ),
-            ),
-          ])),
+    List<String> daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+    return Column(
+      children: [
+        // Your existing week calendar
+        GridView.builder(
+          shrinkWrap: true,
+          itemCount: 7,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 7,
+          ),
+          itemBuilder: (context, index) {
+            if (index < daysOfWeek.length) {
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    if (selectedDayIndex == index) {
+                      selectedDayIndex = -1;
+                    } else {
+                      selectedDayIndex = index;
+                    }
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: index == selectedDayIndex
+                        ? Colors.blue
+                        : Colors.transparent,
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 0.5,
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      daysOfWeek[index],
+                      style: TextStyle(
+                        color: index == selectedDayIndex
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            } else {
+              int dayNumber = index - daysOfWeek.length + 1;
+              return Container(
+                decoration: BoxDecoration(
+                  color: index == selectedDayIndex
+                      ? Colors.blue
+                      : Colors.transparent,
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 0.5,
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    dayNumber.toString(),
+                    style: TextStyle(
+                      color: index == selectedDayIndex
+                          ? Colors.white
+                          : Colors.black,
+                    ),
+                  ),
+                ),
+              );
+            }
+          },
         ),
-      ),
+        SizedBox(
+            height: 16), // Add some space between the calendar and the button
+        // Button that changes color and works on tap when a day is selected
+        ElevatedButton(
+          onPressed: selectedDayIndex != -1
+              ? () {
+                  // Do something when the button is tapped
+                  print('Button tapped!');
+                }
+              : null,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: selectedDayIndex != -1 ? Colors.blue : Colors.grey,
+          ),
+          child: Text('My Button'),
+        ),
+      ],
     );
   }
 }

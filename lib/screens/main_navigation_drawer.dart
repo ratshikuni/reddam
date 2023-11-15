@@ -56,8 +56,8 @@ class _MainNavigationDrawerState extends State<MainNavigationDrawer> {
         ),
         ListTile(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AccountScreen()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Account()));
           },
           leading: const Icon(
             Icons.person,
