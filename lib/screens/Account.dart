@@ -1,3 +1,4 @@
+import 'package:app/screens/Home.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -10,8 +11,14 @@ class Account extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          leading: const Icon(
-            Icons.menu, // Replace 'Icons.menu' with the icon of your choice
+          leading: IconButton(
+            icon: Icon(
+              Icons.menu,
+            ),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HomeScreen())); //
+            },
           ),
           title: const Text('John Doe'),
           centerTitle: true,

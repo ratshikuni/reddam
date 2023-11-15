@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 List<String> activeCollection = [
   "Blankets",
@@ -42,83 +43,147 @@ class _LogHrsState extends State<LogHrs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text("Log Hours"),
-        centerTitle: true,
-      ),
-      body: ListView(
-        children: [
-          Column(
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+          leading: const Icon(
+            Icons.arrow_back_rounded,
+          ),
+          toolbarHeight: 100,
+          title: const Text("Log Hours"),
+          centerTitle: true,
+          titleTextStyle:
+              const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          backgroundColor: const Color(0xFF1D2A3B),
+        ),
+        body: SingleChildScrollView(
+          //width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
             children: [
-              MyRadios(
-                onRadioChanged: (HourTypes? value) {
-                  setState(() {
-                    _character = value;
-                    // Reset the selected option when the radio button changes
-                    selectedOption = null;
-                  });
-                },
-              )
+              Column(
+                children: [
+                  MyRadios(
+                    onRadioChanged: (HourTypes? value) {
+                      setState(() {
+                        _character = value;
+                        // Reset the selected option when the radio button changes
+                        selectedOption = null;
+                      });
+                    },
+                  )
+                ],
+              ),
+              const SizedBox(height: 20),
+              if (_character == HourTypes.activeTime ||
+                  _character == HourTypes.activeCollection ||
+                  _character == HourTypes.passive)
+                Container(
+                  height: 60, // Expand to screen width
+                  padding: const EdgeInsets.only(left: 16, right: 16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF2F2F2),
+                    border: Border.all(color: Colors.white, width: 0.0),
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.grey, // Shadow color
+                        offset: Offset(0.0,
+                            4.0), // Offset to create a shadow at the bottom
+                        blurRadius: 4.0, // Blur radius
+                      ),
+                    ],
+                  ),
+
+                  child: DropdownWidget(
+                    items: _character == HourTypes.activeTime
+                        ? activeTime
+                        : _character == HourTypes.activeCollection
+                            ? activeCollection
+                            : passiveHours,
+                    selectedItem: selectedOption,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedOption = value;
+                      });
+                    },
+                  ),
+                ),
+              const SizedBox(height: 20),
+
+              Container(
+                height: 60,
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF2F2F2),
+                  border: Border.all(color: Colors.white, width: 0.0),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey, // Shadow color
+                      offset: Offset(
+                          0.0, 4.0), // Offset to create a shadow at the bottom
+                      blurRadius: 4.0, // Blur radius
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))
+                  ], // Allow numeric digits and decimal point
+                  decoration: const InputDecoration(
+                    hintText: 'Enter Hours',
+                    alignLabelWithHint: true,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                height: 60,
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF2F2F2),
+                  border: Border.all(color: Colors.white, width: 0.0),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey, // Shadow color
+                      offset: Offset(
+                          0.0, 4.0), // Offset to create a shadow at the bottom
+                      blurRadius: 4.0, // Blur radius
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
+                  decoration: const InputDecoration(
+                    hintText: 'Enter Slip Number',
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              content(),
+              const SizedBox(height: 20),
+              // Add a submit button at the end
+              submitButton(),
             ],
           ),
-          const SizedBox(height: 20),
-          if (_character == HourTypes.activeTime ||
-              _character == HourTypes.activeCollection ||
-              _character == HourTypes.passive)
-            Container(
-              width:
-                  MediaQuery.of(context).size.width, // Expand to screen width
-              padding: const EdgeInsets.only(left: 16, right: 16),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey, width: 1),
-                  borderRadius: BorderRadius.circular(15)),
+        ));
+  }
 
-              child: DropdownWidget(
-                items: _character == HourTypes.activeTime
-                    ? activeTime
-                    : _character == HourTypes.activeCollection
-                        ? activeCollection
-                        : passiveHours,
-                selectedItem: selectedOption,
-                onChanged: (String? value) {
-                  setState(() {
-                    selectedOption = value;
-                  });
-                },
-              ),
-            ),
-          const SizedBox(height: 20),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 50,
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1),
-                borderRadius: BorderRadius.circular(15)),
-            child: const TextField(
-              decoration: InputDecoration(
-                hintText: 'Enter Hours',
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 50,
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1),
-                borderRadius: BorderRadius.circular(15)),
-            child: const TextField(
-              decoration: InputDecoration(
-                hintText: 'Enter Slip Number',
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          content(),
-        ],
+  Widget submitButton() {
+    return ElevatedButton(
+      onPressed: () {
+        // the submit button action here
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xFF1D2A3B), // Set the background color
+        minimumSize: const Size(180, 40), // the width and height
+      ),
+      child: const Text(
+        'Submit',
+        style: TextStyle(fontSize: 18), // font size
       ),
     );
   }
@@ -133,8 +198,19 @@ class _LogHrsState extends State<LogHrs> {
           width: 350,
           height: 150,
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-              borderRadius: BorderRadius.circular(15)),
+            color: const Color(0xFFF2F2F2),
+            border: Border.all(color: Colors.white, width: 0.0),
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.grey, // Shadow color
+                offset:
+                    Offset(0.0, 4.0), // Offset to create a shadow at the bottom
+                blurRadius: 4.0, // Blur radius
+              ),
+            ],
+          ),
+
           // color: Colors.blueGrey,
           child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -173,6 +249,8 @@ class MyRadios extends StatefulWidget {
 class _MyRadiosState extends State<MyRadios> {
   HourTypes? _character = HourTypes.passive;
 
+  Color radioColor = const Color.fromRGBO(167, 142, 60, 1);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -190,6 +268,7 @@ class _MyRadiosState extends State<MyRadios> {
                 }
               });
             },
+            activeColor: radioColor, //
           ),
         ),
         ListTile(
@@ -205,6 +284,7 @@ class _MyRadiosState extends State<MyRadios> {
                 }
               });
             },
+            activeColor: radioColor, // Set the color here
           ),
         ),
         ListTile(
@@ -220,6 +300,7 @@ class _MyRadiosState extends State<MyRadios> {
                 }
               });
             },
+            activeColor: radioColor, // Set the color here
           ),
         ),
       ],
@@ -243,7 +324,7 @@ class DropdownWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButton<String>(
       hint: const Text("Select Event Name"),
-      dropdownColor: Colors.white,
+      dropdownColor: const Color.fromARGB(255, 237, 239, 241),
       value: selectedItem,
       onChanged: onChanged,
       icon: const Icon(Icons.arrow_drop_down),
