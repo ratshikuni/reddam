@@ -3,6 +3,7 @@ import 'package:app/screens/LogHrs.dart';
 import 'package:app/screens/main_navigation_drawer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -11,10 +12,22 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+List<DateTime> getWeekDates(DateTime currentDate) {
+  return List.generate(
+      7,
+      (index) => currentDate
+          .subtract(Duration(days: currentDate.weekday - 1))
+          .add(Duration(days: index)));
+}
+
 class _HomeScreenState extends State<HomeScreen> {
   String Name = "shoba";
   int Total_hours = 50;
-  bool isSelected = false;
+
+  int selectedDayIndex = -1;
+  List<String> daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+  List<DateTime> weekDates = getWeekDates(DateTime.now());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,9 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: Icon(Icons.person),
             onPressed: () {
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (context) => AccountScreen())); //
-              // Add your onPressed logic here
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Account())); //
             },
           )
         ],
@@ -108,8 +120,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 7, 41, 69),
+                                    backgroundColor: selectedDayIndex != -1
+                                        ? Color.fromARGB(255, 7, 41, 69)
+                                        : Colors.grey,
                                   ),
                                   child: Text('Log Hours'))
                             ],
@@ -125,12 +138,90 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(
               child: Card(
-                  elevation: 5.0,
-                  margin: EdgeInsets.all(10.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: WeekCalendar()),
+                elevation: 5.0,
+                margin: EdgeInsets.all(10.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Timetable',
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold)),
+                        SizedBox(
+                          height: 35,
+                        ),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          itemCount: 5,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 5,
+                          ),
+                          itemBuilder: (context, index) {
+                            if (index < daysOfWeek.length) {
+                              print("The days are $index");
+
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    if (selectedDayIndex == index) {
+                                      selectedDayIndex = -1;
+                                    } else {
+                                      selectedDayIndex = index;
+                                    }
+                                  });
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: index == selectedDayIndex
+                                          ? Color.fromARGB(255, 7, 41, 69)
+                                          : Colors.transparent,
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 0.5,
+                                      ),
+                                    ),
+                                    child: Center(
+                                        child: Column(
+                                      children: [
+                                        Text(
+                                          daysOfWeek[index],
+                                          style: TextStyle(
+                                            color: index == selectedDayIndex
+                                                ? Colors.white
+                                                : Colors.black,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          "" +
+                                              (weekDates[index].day).toString(),
+                                          style: TextStyle(
+                                            color: index == selectedDayIndex
+                                                ? Colors.white
+                                                : Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    )),
+              ),
             ),
             Expanded(
               child: Card(
@@ -173,107 +264,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ]),
         ),
       ),
-    );
-  }
-}
-
-class WeekCalendar extends StatefulWidget {
-  @override
-  _WeekCalendarState createState() => _WeekCalendarState();
-}
-
-class _WeekCalendarState extends State<WeekCalendar> {
-  int selectedDayIndex = -1;
-
-  @override
-  Widget build(BuildContext context) {
-    List<String> daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-    return Column(
-      children: [
-        // Your existing week calendar
-        GridView.builder(
-          shrinkWrap: true,
-          itemCount: 7,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 7,
-          ),
-          itemBuilder: (context, index) {
-            if (index < daysOfWeek.length) {
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    if (selectedDayIndex == index) {
-                      selectedDayIndex = -1;
-                    } else {
-                      selectedDayIndex = index;
-                    }
-                  });
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: index == selectedDayIndex
-                        ? Colors.blue
-                        : Colors.transparent,
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 0.5,
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      daysOfWeek[index],
-                      style: TextStyle(
-                        color: index == selectedDayIndex
-                            ? Colors.white
-                            : Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            } else {
-              int dayNumber = index - daysOfWeek.length + 1;
-              return Container(
-                decoration: BoxDecoration(
-                  color: index == selectedDayIndex
-                      ? Colors.blue
-                      : Colors.transparent,
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 0.5,
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    dayNumber.toString(),
-                    style: TextStyle(
-                      color: index == selectedDayIndex
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                  ),
-                ),
-              );
-            }
-          },
-        ),
-        SizedBox(
-            height: 16), // Add some space between the calendar and the button
-        // Button that changes color and works on tap when a day is selected
-        ElevatedButton(
-          onPressed: selectedDayIndex != -1
-              ? () {
-                  // Do something when the button is tapped
-                  print('Button tapped!');
-                }
-              : null,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: selectedDayIndex != -1 ? Colors.blue : Colors.grey,
-          ),
-          child: Text('My Button'),
-        ),
-      ],
     );
   }
 }
