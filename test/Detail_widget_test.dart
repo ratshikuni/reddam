@@ -6,7 +6,7 @@ void main() {
   testWidgets('DetailScreen UI test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(MaterialApp(
-      home: DetailScreen(),
+      home: DetailScreen(id: null,),
     ));
 
     // Verify that the image is displayed.

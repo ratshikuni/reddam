@@ -6,7 +6,7 @@ void main() {
   testWidgets('HomeScreen UI test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(MaterialApp(
-      home: HomeScreen(),
+      home: HomeScreen(objct: null,),
     ));
 
     // Verify that the welcome text is displayed.
@@ -25,3 +25,8 @@ void main() {
     expect(find.text('Teachers and Activities'), findsOneWidget);
   });
 }
+
+mixin WeekCalendar {
+}
+
+
