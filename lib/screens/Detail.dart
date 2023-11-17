@@ -140,7 +140,9 @@ class _DetailScreenState extends State<DetailScreen> {
                             'grade': '$selectedGrade',
                             'house': '$selectedHouse',
                             'class': '$selectedClass',
-                            'id': '$id'
+                            'id': '$id',
+                            'email': '$email',
+                            'password': '$password'
                           }));
 
                       print("it works" + jsonDecode(response.body).toString());
