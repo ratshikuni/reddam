@@ -20,7 +20,7 @@ class Account extends StatelessWidget {
               //     MaterialPageRoute(builder: (context) => HomeScreen())); //
             },
           ),
-          title: const Text('John Doe'),
+          title: const Text('Phila Shoba'),
           centerTitle: true,
           toolbarHeight: 100,
           titleTextStyle:
@@ -76,28 +76,28 @@ class AccountContainer extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white, // White rectangle background color
                   padding: const EdgeInsets.all(8.0),
-                  child: const Text('Full Name: John Doe'),
+                  child: const Text('Full Name: Phila Shoba'),
                 ),
                 const SizedBox(height: 5.0),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white, // White rectangle background color
                   padding: const EdgeInsets.all(8.0),
-                  child: const Text('Grade: 10'),
+                  child: const Text('Grade: 9'),
                 ),
                 const SizedBox(height: 5.0),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white, // White rectangle background color
                   padding: const EdgeInsets.all(8.0),
-                  child: const Text('Class: A'),
+                  child: const Text('Class: E'),
                 ),
                 const SizedBox(height: 5.0),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white, // White rectangle background color
                   padding: const EdgeInsets.all(8.0),
-                  child: const Text('House: Gryffindor'),
+                  child: const Text('House: Munster'),
                 ),
               ],
             ),
