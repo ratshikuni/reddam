@@ -262,8 +262,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 'Content-Type': 'application/json; charset=UTF-8',
               },
               body: jsonEncode(<String, String>{
-                'email': 'reddam065@house.com',
-                'password': 'werwera',
+                'email': emailEditingController.text,
+                'password': passwordEditingController.text,
               }));
 
           print("clicked");
@@ -271,16 +271,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           regAlbum album = regAlbum.fromJson(jsonDecode(response.body));
 
           if (response.statusCode == 200) {
-            var obj = jsonDecode(response.body)['response']['id'];
+            var objid = jsonDecode(response.body)['response']['id'];
+            var objemail = jsonDecode(response.body)['response']['email'];
+            var objpassword = jsonDecode(response.body)['response']['password'];
+            print(objemail);
+            print(objpassword);
+
             print("it works" + jsonDecode(response.body).toString());
 
             String message = album.error;
-            print("we got $obj");
+            print("we got $objid");
             // print("$regAlbum");
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                   builder: (context) => DetailScreen(
-                        id: obj,
+                        email: objemail,
+                        password: objpassword,
+                        id: objid,
                       )),
             );
           } else {
@@ -289,9 +296,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             int code = response.statusCode;
 
             String message = album.message;
-            print("we got $message");
+            print("");
+            print("it works" + jsonDecode(response.body).toString());
 
-            showSnackBar("Res: " + message, Duration(seconds: 3));
+            showSnackBar("Email Exist" + message, Duration(seconds: 3));
           }
 
           // showSnackBar("we have signed in", Duration(seconds: 3));
