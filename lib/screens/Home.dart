@@ -4,9 +4,11 @@ import 'package:app/screens/main_navigation_drawer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:app/screens/login.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key}) : super(key: key);
+  var objct;
+  HomeScreen({Key? key, required this.objct}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -21,8 +23,20 @@ List<DateTime> getWeekDates(DateTime currentDate) {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String Name = "shoba";
+  String Name = "";
   int Total_hours = 50;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.objct.user != null) {
+      Name = widget.objct.user.name;
+      Total_hours = widget.objct.user.hours;
+      print("we $Name");
+    }
+  }
+
+  // String Name = "shiba";
+//
 
   int selectedDayIndex = -1;
   List<String> daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];

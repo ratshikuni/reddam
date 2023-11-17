@@ -1,13 +1,42 @@
 import 'package:app/screens/Home.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class DetailScreen extends StatefulWidget {
-  @override
+  var id;
+  var email;
+
+  var password;
+
+  DetailScreen({Key? key, required this.id, this.email, this.password})
+      : super(key: key);
   _DetailScreenState createState() => _DetailScreenState();
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  String name = "Shoba";
+  late String id;
+  late String email;
+
+  late String password;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.id != null) {
+      id = widget.id;
+      email = widget.id;
+
+      password = widget.id;
+    }
+  }
+
+  String selectedGrade = '';
+  String selectedClass = '';
+  String selectedHouse = '';
+  String hintTextGrade = 'Select an option';
+  String hintTextClass = 'Select an option';
+  String hintTextHouse = 'Select an option';
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +60,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  'Welcome $name',
+                  'Welcome ',
                   style: const TextStyle(
                     color: Color(0xFFA78E3C),
                     fontSize: 30,
@@ -39,22 +68,69 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                 ),
                 SizedBox(height: 50),
-                buildDropdown('Select Grade',
-                    ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4']),
+                buildDropdown(
+                  'Select Grade',
+                  ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4'],
+                  hintTextGrade,
+                  (String value) {
+                    setState(() {
+                      selectedGrade = value ?? '';
+                      hintTextGrade = selectedGrade.isNotEmpty
+                          ? 'Selected: $selectedGrade'
+                          : 'Select an option';
+                    });
+                  },
+                ),
                 SizedBox(height: 20),
-                buildDropdown('Select Class',
-                    ['Class A', 'Class B', 'Class C', 'Class D']),
+                buildDropdown(
+                  'Select Class',
+                  ['Class A', 'Class B', 'Class C', 'Class D'],
+                  hintTextClass,
+                  (String value) {
+                    setState(() {
+                      selectedClass = value ?? '';
+                      hintTextClass = selectedClass.isNotEmpty
+                          ? 'Selected: $selectedClass'
+                          : 'Select an option';
+                    });
+                  },
+                ),
                 SizedBox(height: 20),
-                buildDropdown('Select House',
-                    ['House 1', 'House 2', 'House 3', 'House 4']),
+                buildDropdown(
+                  'Select House',
+                  ['House 1', 'House 2', 'House 3', 'House 4'],
+                  hintTextHouse,
+                  (String value) {
+                    setState(() {
+                      selectedHouse = value ?? '';
+                      hintTextHouse = selectedHouse.isNotEmpty
+                          ? 'Selected: $selectedHouse'
+                          : 'Select an option';
+                    });
+                  },
+                ),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                    );
+                  onPressed: () async {
+                    final response = await http.put(
+                        Uri.parse(
+                            'https://reddam.agreeableplant-3f520c83.southafricanorth.azurecontainerapps.io/studentupdate'),
+                        headers: <String, String>{
+                          'Content-Type': 'application/json; charset=UTF-8',
+                        },
+                        body: jsonEncode(<String, String>{
+                          'grade': '$selectedGrade',
+                          'house': '$selectedHouse',
+                          'class': '$selectedClass',
+                          'id': '$id'
+                        }));
+                    print("it works" + jsonDecode(response.body).toString());
+
                     // Handle submit button press
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => DetailScreen()),
+                    // );
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFFA78E3C),
@@ -77,7 +153,9 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  Widget buildDropdown(String hintText, List<String> items) {
+  Widget buildDropdown(String hintText, List<String> items,
+      String currentHintText, Function(String) onChanged) {
+    String selectedValue = '';
     return Container(
       width: 300,
       padding: EdgeInsets.symmetric(horizontal: 12),
@@ -86,7 +164,7 @@ class _DetailScreenState extends State<DetailScreen> {
         borderRadius: BorderRadius.circular(5),
       ),
       child: DropdownButton<String>(
-        hint: Text(hintText),
+        hint: Text(currentHintText),
         items: items.map((String value) {
           return DropdownMenuItem<String>(
             value: value,
@@ -95,6 +173,7 @@ class _DetailScreenState extends State<DetailScreen> {
         }).toList(),
         onChanged: (String? value) {
           // Handle selection
+          onChanged(value ?? '');
         },
       ),
     );

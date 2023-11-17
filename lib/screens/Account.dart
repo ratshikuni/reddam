@@ -16,8 +16,8 @@ class Account extends StatelessWidget {
               Icons.menu,
             ),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HomeScreen())); //
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => HomeScreen())); //
             },
           ),
           title: const Text('John Doe'),

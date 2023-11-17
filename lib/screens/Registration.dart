@@ -1,5 +1,9 @@
 import 'package:app/screens/Detail.dart';
+import 'package:app/screens/models.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -250,30 +254,70 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     final signUpButton = Align(
       alignment: Alignment.centerRight,
       child: ElevatedButton(
-      onPressed: () {
-        showSnackBar("we have signed in", Duration(seconds: 3));
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => DetailScreen()),
-        );
-      },
-      style: ElevatedButton.styleFrom(
-        primary: Color(0xFFA78E3C), // Background color
-        onPrimary: Colors.white, // Text color
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+        onPressed: () async {
+          final response = await http.post(
+              Uri.parse(
+                  'https://reddam.agreeableplant-3f520c83.southafricanorth.azurecontainerapps.io/studentregister'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+              body: jsonEncode(<String, String>{
+                'email': 'reddam065@house.com',
+                'password': 'werwera',
+              }));
+
+          print("clicked");
+
+          regAlbum album = regAlbum.fromJson(jsonDecode(response.body));
+
+          if (response.statusCode == 200) {
+            var obj = jsonDecode(response.body)['response']['id'];
+            print("it works" + jsonDecode(response.body).toString());
+
+            String message = album.error;
+            print("we got $obj");
+            // print("$regAlbum");
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                  builder: (context) => DetailScreen(
+                        id: obj,
+                      )),
+            );
+          } else {
+            // print("it s" + jsonDecode(response.body).toString());
+
+            int code = response.statusCode;
+
+            String message = album.message;
+            print("we got $message");
+
+            showSnackBar("Res: " + message, Duration(seconds: 3));
+          }
+
+          // showSnackBar("we have signed in", Duration(seconds: 3));
+          // print(nameEditingController.value.toString());
+          // Navigator.of(context).pushReplacement(
+          //   MaterialPageRoute(builder: (context) => DetailScreen()),
+          // );
+        },
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.white,
+          backgroundColor: Color(0xFFA78E3C), // Text color
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        child: const Text(
+          "Sign Up",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF1D2A3B),
+          ),
         ),
       ),
-      child: const Text(
-        "Sign Up",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Color(0xFF1D2A3B),
-        ),
-      ),
-    ),
     );
 
     //designing the screen
@@ -307,7 +351,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   //Add Texts as Welcoming message
-                   SizedBox(height: 50),
+                  SizedBox(height: 50),
                   //   child: Image.asset(
                   //     'assets/logo.jpeg',
                   //     fit: BoxFit.contain,

@@ -1,6 +1,9 @@
 import 'package:app/screens/Home.dart';
 import 'package:app/screens/Registration.dart';
+import 'package:app/screens/models.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class EmailFieldValidator {
   static String? validate(String? value) {
@@ -14,6 +17,22 @@ class EmailFieldValidator {
     }
     return null;
   }
+}
+
+// models.dart
+
+Future<http.Response> createAlbum(String email, String password) {
+  return http.post(
+    Uri.parse(
+        'https://reddam.agreeableplant-3f520c83.southafricanorth.azurecontainerapps.io/studentsignin'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'email': email,
+      'password': password,
+    }),
+  );
 }
 
 class PasswordFieldValidator {
@@ -127,11 +146,59 @@ class _LoginScreenState extends State<LoginScreen> {
     final loginButton = Align(
       alignment: Alignment.centerRight,
       child: ElevatedButton(
-        onPressed: () {
-          showSnackBar("we have signed in", Duration(seconds: 3));
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-          );
+        onPressed: () async {
+          print("email" + emailController.text.toString());
+          print("password" + passwordController.text.toString());
+
+          if (emailController.text.isEmpty) {
+            showSnackBar("Enter Your email", Duration(seconds: 3));
+          }
+          if (passwordController.text.isEmpty) {
+            showSnackBar("Enter Your password", Duration(seconds: 3));
+          } else if (emailController.text.isNotEmpty &&
+              passwordController.text.isNotEmpty) {
+            final response = await createAlbum(
+                emailController.text, passwordController.text);
+
+            print("clicked");
+
+            Album album = Album.fromJson(jsonDecode(response.body));
+
+            if (response.statusCode == 200) {
+              print("it works" + jsonDecode(response.body).toString());
+
+              // String message = album.message;
+              // print("we got $message");
+              // print("$album");
+
+              String name = album.user.email;
+              print("we got $name");
+              print("$name");
+              print("sd");
+
+              // showSnackBar("we have signed in", Duration(seconds: 5));
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => HomeScreen(
+                    objct: album,
+                  ),
+                ),
+              );
+            } else {
+              print("it doens" + jsonDecode(response.body).toString());
+
+              int code = response.statusCode;
+              print("it 't work");
+              // String message = album.message;
+              // print("we got $message");
+              // showSnackBar("$message", Duration(seconds: 3));
+            }
+
+            // showSnackBar("we have signed in", Duration(seconds: 3));
+            // Navigator.of(context).pushReplacement(
+            //   MaterialPageRoute(builder: (context) => HomeScreen()),
+            // );
+          }
         },
         style: ElevatedButton.styleFrom(
           primary: Color(0xFFA78E3C), // Background color
