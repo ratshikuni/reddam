@@ -15,6 +15,9 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+
+
+
   late String id;
   late String email;
 
@@ -70,7 +73,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 SizedBox(height: 50),
                 buildDropdown(
                   'Select Grade',
-                  ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4'],
+                  ['Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'],
                   hintTextGrade,
                   (String value) {
                     setState(() {
@@ -84,7 +87,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 SizedBox(height: 20),
                 buildDropdown(
                   'Select Class',
-                  ['Class A', 'Class B', 'Class C', 'Class D'],
+                  ['Class R', 'Class E', 'Class D', 'Class A','Class M','Class H'],
                   hintTextClass,
                   (String value) {
                     setState(() {
@@ -98,7 +101,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 SizedBox(height: 20),
                 buildDropdown(
                   'Select House',
-                  ['House 1', 'House 2', 'House 3', 'House 4'],
+                  ['Connaught', 'Lienster', 'Munster', 'Ulster'],
                   hintTextHouse,
                   (String value) {
                     setState(() {
