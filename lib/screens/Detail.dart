@@ -127,68 +127,66 @@ class _DetailScreenState extends State<DetailScreen> {
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
-                    if (selectedGrade.isNotEmpty &&
-                        selectedHouse.isNotEmpty &&
-                        selectedClass.isNotEmpty) {
-                      final response = await http.put(
-                          Uri.parse(
-                              'https://reddam.agreeableplant-3f520c83.southafricanorth.azurecontainerapps.io/studentupdate'),
-                          headers: <String, String>{
-                            'Content-Type': 'application/json; charset=UTF-8',
-                          },
-                          body: jsonEncode(<String, String>{
-                            'grade': '$selectedGrade',
-                            'house': '$selectedHouse',
-                            'class': '$selectedClass',
-                            'id': '$id',
-                            'email': '$email',
-                            'password': '$password'
-                          }));
+                    // if (selectedGrade.isNotEmpty &&
+                    //     selectedHouse.isNotEmpty &&
+                    //     selectedClass.isNotEmpty) {
+                    final response = await http.put(
+                        Uri.parse(
+                            'https://reddam.agreeableplant-3f520c83.southafricanorth.azurecontainerapps.io/studentupdate'),
+                        headers: <String, String>{
+                          'Content-Type': 'application/json; charset=UTF-8',
+                        },
+                        body: jsonEncode(<String, String>{
+                          'grade': '$selectedGrade',
+                          'house': '$selectedHouse',
+                          'class': '$selectedClass',
+                          'id': '$id',
+                          'email': '$email',
+                          'password': '$password'
+                        }));
 
-                      print("it works" + jsonDecode(response.body).toString());
-                      print(email);
-                      print(password);
+                    print("it works" + jsonDecode(response.body).toString());
+                    print(email);
+                    print(password);
 
-                      final response2 = await createAlbum(email, password);
+                    final response2 = await createAlbum(email, password);
 
-                      print("clicked");
+                    print("clicked");
 
-                      Album album = Album.fromJson(jsonDecode(response2.body));
+                    Album album = Album.fromJson(jsonDecode(response2.body));
 
-                      if (response2.statusCode == 200) {
-                        print(
-                            "it works" + jsonDecode(response2.body).toString());
+                    if (response2.statusCode == 200) {
+                      print("it works" + jsonDecode(response2.body).toString());
 
-                        // String message = album.message;
-                        // print("we got $message");
-                        // print("$album");
+                      // String message = album.message;
+                      // print("we got $message");
+                      // print("$album");
 
-                        String name = album.user.email;
-                        print("we got $name");
-                        print("$name");
-                        print("sd");
+                      String name = album.user.email;
+                      print("we got $name");
+                      print("$name");
+                      print("sd");
 
-                        // showSnackBar("we have signed in", Duration(seconds: 5));
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => HomeScreen(
-                              objct: album,
-                            ),
+                      // showSnackBar("we have signed in", Duration(seconds: 5));
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => HomeScreen(
+                            objct: album,
                           ),
-                        );
-                      } else {
-                        print(
-                            "it doens" + jsonDecode(response2.body).toString());
-
-                        int code = response.statusCode;
-                        print("it 't work");
-                        // String message = album.message;
-                        // print("we got $message");
-                        // showSnackBar("$message", Duration(seconds: 3));
-                      }
+                        ),
+                      );
                     } else {
-                      showSnackBar("select your details", Duration(seconds: 3));
+                      print("it doens" + jsonDecode(response2.body).toString());
+
+                      int code = response.statusCode;
+                      print("it 't work");
+                      // String message = album.message;
+                      // print("we got $message");
+                      // showSnackBar("$message", Duration(seconds: 3));
                     }
+                    // } else {
+                    //   showSnackBar("select your details", Duration(seconds: 3));
+                    // }
                     // Handle submit button press
                     // Navigator.push(
                     //   context,

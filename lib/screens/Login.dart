@@ -147,58 +147,47 @@ class _LoginScreenState extends State<LoginScreen> {
       alignment: Alignment.centerRight,
       child: ElevatedButton(
         onPressed: () async {
-          print("email" + emailController.text.toString());
-          print("password" + passwordController.text.toString());
+          final response =
+              await createAlbum(emailController.text, passwordController.text);
 
-          if (emailController.text.isEmpty) {
-            showSnackBar("Enter Your email", Duration(seconds: 3));
-          }
-          if (passwordController.text.isEmpty) {
-            showSnackBar("Enter Your password", Duration(seconds: 3));
-          } else if (emailController.text.isNotEmpty &&
-              passwordController.text.isNotEmpty) {
-            final response = await createAlbum(
-                emailController.text, passwordController.text);
+          print("clicked");
 
-            print("clicked");
+          Album album = Album.fromJson(jsonDecode(response.body));
 
-            Album album = Album.fromJson(jsonDecode(response.body));
+          if (response.statusCode == 200) {
+            print("it works" + jsonDecode(response.body).toString());
 
-            if (response.statusCode == 200) {
-              print("it works" + jsonDecode(response.body).toString());
+            // String message = album.message;
+            // print("we got $message");
+            // print("$album");
 
-              // String message = album.message;
-              // print("we got $message");
-              // print("$album");
+            String name = album.user.email;
+            print("we got $name");
+            print("$name");
+            print("sd");
 
-              String name = album.user.email;
-              print("we got $name");
-              print("$name");
-              print("sd");
-
-              // showSnackBar("we have signed in", Duration(seconds: 5));
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => HomeScreen(
-                    objct: album,
-                  ),
+            // showSnackBar("we have signed in", Duration(seconds: 5));
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => HomeScreen(
+                  objct: album,
                 ),
-              );
-            } else {
-              print("it doens" + jsonDecode(response.body).toString());
+              ),
+            );
+          } else {
+            print("it doens" + jsonDecode(response.body).toString());
 
-              int code = response.statusCode;
-              print("it 't work");
-              // String message = album.message;
-              // print("we got $message");
-              // showSnackBar("$message", Duration(seconds: 3));
-            }
-
-            // showSnackBar("we have signed in", Duration(seconds: 3));
-            // Navigator.of(context).pushReplacement(
-            //   MaterialPageRoute(builder: (context) => HomeScreen()),
-            // );
+            int code = response.statusCode;
+            print("it 't work");
+            // String message = album.message;
+            // print("we got $message");
+            // showSnackBar("$message", Duration(seconds: 3));
           }
+
+          // showSnackBar("we have signed in", Duration(seconds: 3));
+          // Navigator.of(context).pushReplacement(
+          //   MaterialPageRoute(builder: (context) => HomeScreen()),
+          // );
         },
         style: ElevatedButton.styleFrom(
           primary: Color(0xFFA78E3C), // Background color
