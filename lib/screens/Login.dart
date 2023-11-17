@@ -12,7 +12,7 @@ class EmailFieldValidator {
       return "Please Enter Your Email";
     }
     //reg expression for email validation
-    if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+    if (!RegExp(r'^[a-zA-Z]+@reddam\.house$').hasMatch(value)) {
       return "Please enter a valid email";
     }
     return null;

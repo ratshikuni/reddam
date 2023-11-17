@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+// this marks the end of the required imports for this screen.
 
+//Defining our state widgets and state class
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
-
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
@@ -53,13 +54,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       controller: nameEditingController,
       keyboardType: TextInputType.name,
       validator: (value) {
-        RegExp regex = new RegExp(r'^.{3,}$');
         if (value!.isEmpty) {
-          return ("Name Cannot be Empty");
+          return "Name cannot be empty";
         }
-
-        if (!regex.hasMatch(value)) {
-          return ("Please Enter Valid Name (3 Characters Min)");
+        if (value.length <= 2) {
+          return "Please enter a name with more than 2 characters";
         }
         return null;
       },
@@ -87,7 +86,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       keyboardType: TextInputType.name,
       validator: (value) {
         if (value!.isEmpty) {
-          return ("Surname Cannot be Empty");
+          return "Surname cannot be empty";
+        }
+        if (value.length <= 2) {
+          return "Please enter a surname with more than 2 characters";
         }
         return null;
       },
@@ -106,31 +108,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           )),
     );
 
-    //Username field
-    //validation : must be filled in
-    final usernameField = TextFormField(
-      autofocus: false,
-      controller: usernameEditingController,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return ("Username Cannot be Empty");
-        }
-        return null;
-      },
-      onSaved: (value) {
-        usernameEditingController.text = value!;
-      },
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-          prefixIcon: Icon(Icons.person),
-          filled: true, //<-- SEE HERE
-          fillColor: Colors.white,
-          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Username",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          )),
-    );
 
     //Email field
     //validation : must be filled in
@@ -140,12 +117,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       controller: emailEditingController,
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
+        //RegExp regex = RegExp(r'^[a-zA-Z]+@reddam\.house$');
         if (value!.isEmpty) {
-          return ("Please Enter Your Email");
+          return "Email cannot be empty";
         }
-        //reg expression for email validation
-        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
-          return ("Please enter a valid email");
+        if (!RegExp(r'^[a-zA-Z]+@reddam\.house$').hasMatch(value)) {
+          return "Please enter a valid email (e.g., name@reddam.house)";
         }
         return null;
       },

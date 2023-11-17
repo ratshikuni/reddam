@@ -15,7 +15,7 @@ class DetailScreen extends StatefulWidget {
   _DetailScreenState createState() => _DetailScreenState();
 }
 
-Future<http.Response> createAlbum(String email, String password) {
+Future<http.Response> createAlbum(String id, String email, String password) {
   return http.post(
     Uri.parse(
         'https://reddam.agreeableplant-3f520c83.southafricanorth.azurecontainerapps.io/studentsignin'),
@@ -42,9 +42,9 @@ class _DetailScreenState extends State<DetailScreen> {
   void initState() {
     super.initState();
     if (widget.id != null) {
+
       id = widget.id;
       email = widget.email;
-
       password = widget.password;
     }
   }
@@ -152,7 +152,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     print(email);
                     print(password);
 
-                    final response2 = await createAlbum(email, password);
+                    final response2 = await createAlbum(id ,email, password);
 
                     print("clicked");
 
@@ -252,3 +252,4 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 }
+

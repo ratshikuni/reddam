@@ -76,28 +76,28 @@ class AccountContainer extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white, // White rectangle background color
                   padding: const EdgeInsets.all(8.0),
-                  child: const Text('Full Name: Phila Shoba'),
+                  child: const Text('Full Name: Firstname Lastname'),
                 ),
                 const SizedBox(height: 5.0),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white, // White rectangle background color
                   padding: const EdgeInsets.all(8.0),
-                  child: const Text('Grade: 9'),
+                  child: const Text('Grade:Update Grade e.g 9'),
                 ),
                 const SizedBox(height: 5.0),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white, // White rectangle background color
                   padding: const EdgeInsets.all(8.0),
-                  child: const Text('Class: E'),
+                  child: const Text('Class:Update Class e.g  E'),
                 ),
                 const SizedBox(height: 5.0),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   color: Colors.white, // White rectangle background color
                   padding: const EdgeInsets.all(8.0),
-                  child: const Text('House: Munster'),
+                  child: const Text('House: Update House e.g Munster'),
                 ),
               ],
             ),
